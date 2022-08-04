@@ -2,9 +2,36 @@ import React, { Component } from 'react';
 import { Analytics, Dashboard, Inbox, Logo, News, Order, Schedules, Settings } from '../icon/index.js';
 import '../../assets/styles/base.scss'
 import './sidebar.scss'
+import Footer from '../../pages/footer/footer.jsx';
+import Search from '../../pages/search/search.jsx';
 class Sidebar extends Component {
+    state = {
+        active: 'menu',
+    }
+    handleActive = (e) => {
+        let list = document.querySelectorAll('.nav-link');
 
-    state = {}
+        list.forEach((item) => {
+            item.addEventListener('click', () => {
+                if (!item.classList.contains('active')) {
+                    list.forEach((item2) => {
+                        item2.classList.remove('active');
+                    })
+
+                    item.classList.add('active')
+                }
+            })
+        });
+        console.log(e.target.innerText);
+        this.setState({ active: e.target.innerText });
+        e.target.className = 'active';
+
+    }
+
+    handleToggle = () => {
+        let sidebar = document.querySelector('.sidebar');
+        sidebar.classList.toggle('hide');
+    }
     render() {
         return (
             <>
@@ -17,37 +44,26 @@ class Sidebar extends Component {
                                 </div>
                                 <div className="search">
                                     <label htmlFor="input"> {News}</label>
-
                                     <input id='input' type="text" placeholder='Search' />
                                 </div>
                                 <div className="nav-list">
                                     <ul>
-                                        <li><a href="#">{Dashboard} Dashboard</a></li>
-                                        <li><a href="#">{Order} Orders</a></li>
-                                        <li><a href="#">{Schedules} Messages</a></li>
-                                        <li><a href="#">{Inbox} Inbox</a></li>
-                                        <li><a href="#">{Analytics} Analytics</a></li>
-                                        <li><a href="#">{News} News</a></li>
-                                        <li><a href="#">{Settings} Settings</a></li>
+                                        <li><a className='nav-link' onClick={this.handleActive} href="#">{Dashboard} Dashboard</a></li>
+                                        <li><a className='nav-link' onClick={this.handleActive} href="#">{Order} Orders</a></li>
+                                        <li><a className='nav-link' onClick={this.handleActive} href="#">{Schedules} Messages</a></li>
+                                        <li><a className='nav-link' onClick={this.handleActive} href="#">{Inbox} Inbox</a></li>
+                                        <li><a className='nav-link' onClick={this.handleActive} href="#">{Analytics} Analytics</a></li>
+                                        <li><a className='nav-link' onClick={this.handleActive} href="#">{News} News</a></li>
+                                        <li><a className='nav-link' onClick={this.handleActive} href="#">{Settings} Settings</a></li>
                                     </ul>
                                 </div>
-                                <div className="footer">
-                                    <div className="img-box">
+                                <Footer />
 
-                                    </div>
-                                    <div className="description">
-                                        <h2>Richard</h2>
-                                        <p>9394lay@gmail.com</p>
-                                    </div>
-                                </div>
-
-                                <div className="logOut">
-
-                                </div>
                             </div>
                         </div>
                         <div className="content">
-
+                            <button onClick={this.handleToggle} className='menu'>Menu</button>
+                            <h1>{this.state.active}</h1>
                         </div>
                     </div>
                 </main>
